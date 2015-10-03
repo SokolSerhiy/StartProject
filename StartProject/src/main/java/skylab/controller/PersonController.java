@@ -32,7 +32,7 @@ public class PersonController {
 			return "person";
 		} else {
 			personService.create(person);
-			return "redirect:/fdgfgdfg";
+			return "redirect:/person.html";
 		}
 	}
 }

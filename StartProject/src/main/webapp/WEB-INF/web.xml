@@ -4,7 +4,7 @@
   <display-name>Your-Site-Name</display-name>
   
   <welcome-file-list>
-    <welcome-file>../jsp/home_page.jsp</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
   
   <servlet>

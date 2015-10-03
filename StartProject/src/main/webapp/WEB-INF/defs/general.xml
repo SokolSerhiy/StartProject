@@ -8,9 +8,9 @@
 		<put-attribute name="footer" value="/WEB-INF/layout/footer.jsp" />
 	</definition>
 
-	<definition name="main" extends="common">
+	<definition name="person" extends="common">
 		<put-attribute name="title" value="Company Name" />
-		<put-attribute name="body" value="/WEB-INF/jsp/main.jsp" />
+		<put-attribute name="body" value="/WEB-INF/jsp/person.jsp" />
 	</definition>
 	
 </tiles-definitions>

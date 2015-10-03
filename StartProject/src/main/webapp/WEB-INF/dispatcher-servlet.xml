@@ -8,7 +8,7 @@
 
 	<mvc:annotation-driven />
 	<!-- Replace * to your controller package -->
-	<context:component-scan base-package="*.*.*" />
+	<context:component-scan base-package="skylab.controller" />
 
 	<bean id="tilesConfigurer"
 		class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">

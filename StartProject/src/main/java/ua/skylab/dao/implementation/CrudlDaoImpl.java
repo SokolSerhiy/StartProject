@@ -1,5 +1,6 @@
-package skylab.dao.implementation;
+package ua.skylab.dao.implementation;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -8,20 +9,21 @@ import javax.persistence.criteria.CriteriaQuery;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import skylab.dao.GeneralDao;
+import ua.skylab.dao.CrudDao;
 
 /**
  * General Dao class implementation. Made as an abstract class. C - input class,
  * N - Number for id
  */
 
-public abstract class GeneralDaoImpl<C, N extends Number> implements
-		GeneralDao<C, N> {
+public abstract class CrudlDaoImpl<E, N extends Number> implements
+		CrudDao<E, N> {
 
-	protected Class<C> entityClass;
+	protected Class<E> entityClass;
 
-	public GeneralDaoImpl(Class<C> entityClass) {
-		this.entityClass = entityClass;
+	@SuppressWarnings("unchecked")
+	public CrudlDaoImpl() {
+		entityClass = (Class<E>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 	}
 
 	@PersistenceContext
@@ -31,7 +33,7 @@ public abstract class GeneralDaoImpl<C, N extends Number> implements
 	 * Creates new entry of the entity in DB
 	 */
 	@Transactional
-	public void create(C entity) {
+	public void save(E entity) {
 		em.persist(entity);
 	}
 
@@ -39,7 +41,7 @@ public abstract class GeneralDaoImpl<C, N extends Number> implements
 	 * Updates the existing entity
 	 */
 	@Transactional
-	public void update(C entity) {
+	public void update(E entity) {
 		em.merge(entity);
 	}
 
@@ -47,8 +49,8 @@ public abstract class GeneralDaoImpl<C, N extends Number> implements
 	 * Returns the list of all entities
 	 */
 	@Transactional
-	public List<C> getAll() {
-		CriteriaQuery<C> cq = em.getCriteriaBuilder().createQuery(entityClass);
+	public List<E> getAll() {
+		CriteriaQuery<E> cq = em.getCriteriaBuilder().createQuery(entityClass);
         cq.select(cq.from(entityClass));
         return em.createQuery(cq).getResultList();
 	}
@@ -57,14 +59,19 @@ public abstract class GeneralDaoImpl<C, N extends Number> implements
 	 * Deletes the entity
 	 */
 	@Transactional
-	public void delete(C entity) {
+	public void delete(E entity) {
 		em.remove(entity);
 	}
 
 	/**
 	 * Returns the entity by ID-number
 	 */
-	public C findOneById(N id) {
+	@Transactional
+	public E findOneById(N id) {
 		return em.find(entityClass, id);
+	}
+
+	public Class<E> getEntityClass() {
+		return entityClass;
 	}
 }
